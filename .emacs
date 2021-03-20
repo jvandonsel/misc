@@ -26,6 +26,10 @@
 (setq exec-path (append exec-path '("/Users/jdonsel/bin")))
 
 (use-package misc)
+(use-package magit)
+(use-package markdown-mode)
+(use-package tabbar)
+(use-package web-mode)
 
 (setq inhibit-splash-screen t)
 (setq visible-bell nil)
@@ -136,7 +140,6 @@
 ;; Clojure
 ; this gets invoked by 'run-lisp'
 (setq inferior-lisp-program "~/bin/clojure")
-(add-hook 'clojure-mode-hook 'paredit-mode)
 (add-hook 'clojure-mode-hook 'prettify-symbols-mode)
 
 (use-package company
@@ -149,12 +152,16 @@
 
 
 ;; Paredit
-;; Redefine some paredit keys
-;; First we need to undefine the keys in paredit's map
-(eval-after-load 'paredit '(progn (define-key paredit-mode-map [\C-\M-right] nil)))
-(eval-after-load 'paredit '(progn (define-key paredit-mode-map [\C-\M-left] nil)))
-(global-set-key [\C-\M-right] 'paredit-forward)
-(global-set-key [\C-\M-left] 'paredit-backward)
+(use-package paredit
+  :config
+  (add-hook 'clojure-mode-hook 'paredit-mode)
+  ;; Redefine some paredit keys
+  ;; First we need to undefine the keys in paredit's map
+  (eval-after-load 'paredit '(progn (define-key paredit-mode-map [\C-\M-right] nil)))
+  (eval-after-load 'paredit '(progn (define-key paredit-mode-map [\C-\M-left] nil)))
+  (global-set-key [\C-\M-right] 'paredit-forward)
+  (global-set-key [\C-\M-left] 'paredit-backward)
+  )
  
 ; Recursive edit
 ;; Enter a recursive edit. C-M-c will bring back exactly there
@@ -328,8 +335,7 @@ Uses `current-date-time-format' for the formatting the date/time."
 
 (setq scroll-step 1) ;; keyboard scroll one line at a time
 
-; See https://github.com/js-emacs/xref-js2
-; Note that xref-js2 requires 'ag' installed, both in emacs and on your host.
+(use-package xref-js2)
 (use-package js
   :config
   (add-hook 'js2-mode-hook (lambda ()  (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
