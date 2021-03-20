@@ -1,3 +1,4 @@
+;; Jim Van Donsel's .emacs file
 (when (>= emacs-major-version 24)
   (require 'package)
   (add-to-list
@@ -6,17 +7,25 @@
    t)
   (package-initialize))
 
+
+;; The one package to rule them all.
+;; Auto-downloads things wrapped in 'use-package'.
+(require 'use-package)
+
 ; Follow buffers
 (setq mouse-autoselect-window t)
+
+;; Get rid of c-z minimizing the window
+(global-set-key "\C-z" nil)
 
 (ctags-global-auto-update-mode)
 (setq ctags-update-prompt-create-tags nil);you need manually create TAGS in your project
 
-; jvd
+; Mac
 (setenv "PATH" (concat (getenv "PATH") ":/Users/jdonsel/bin"))
 (setq exec-path (append exec-path '("/Users/jdonsel/bin")))
 
-
+(use-package misc)
 
 (setq inhibit-splash-screen t)
 (setq visible-bell nil)
@@ -53,10 +62,8 @@
 ; revert buffer
 (global-set-key "\M-r" 'revert-buffer)
 (global-set-key [(control x) (control b)] 'buffer-menu)
-(global-set-key "\C-]" 'comment-end-of-function)
 (global-set-key "\M-g" 'goto-line)
 (global-set-key (kbd "C-o") 'open-next-line)
-(require 'misc)
 (global-set-key "\M-f" 'forward-to-word)
 ;(global-set-key [\C-right] 'forward-to-word)
 (global-set-key "\C-xg" 'rgrep)
@@ -71,34 +78,59 @@
 (global-set-key "\C-\M-y" 'facemenu-set-background)
 
 ;; org mode
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
-(setq org-directory "~/Dropbox/org/")
-(setq org-agenda-files (list (concat org-directory "work.org")))
-(add-hook 'org-mode-hook 'visual-line-mode) 
-(require 'org-tree-slide)
-(setq org-hide-emphasis-markers t)
-(setq org-hide-leading-stars t)
-(add-hook 'org-mode-hook (lambda () (set-face-attribute 'org-level-1 nil :height 2.5)))
-(add-hook 'org-mode-hook (lambda () (set-face-attribute 'org-level-2 nil :height 1.5)))
-(add-hook 'org-mode-hook (lambda () (set-face-attribute 'org-level-2 nil :height 1.0)))
+(use-package org 
+  :config
+  (define-key global-map "\C-cl" 'org-store-link)
+  (define-key global-map "\C-ca" 'org-agenda)
+  (define-key org-mode-map (kbd "M-a") 'org-show-all)
+  (add-hook 'org-mode-hook 'visual-line-mode) 
+
+  ;; Source-block
+  (defun mark-region-as-src () (interactive)
+         (save-excursion
+           (goto-char (region-end))
+           (insert "#+END_SRC\n")
+           (goto-char (region-beginning))
+           (insert "#+BEGIN_SRC\n")
+           )
+         )
+  (define-key org-mode-map (kbd "M-s") 'mark-region-as-src)
+
+  )
+(use-package org-tree-slide
+  :config
+  (setq org-hide-emphasis-markers t)
+  (setq org-hide-leading-stars t)
+  (add-hook 'org-mode-hook (lambda () (set-face-attribute 'org-level-1 nil :height 2.5)))
+  (add-hook 'org-mode-hook (lambda () (set-face-attribute 'org-level-2 nil :height 1.5)))
+  (add-hook 'org-mode-hook (lambda () (set-face-attribute 'org-level-2 nil :height 1.0)))
+  )
+
+(use-package org-bullets
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  ;; Eliminate all header bullets 
+  (setq org-bullets-bullet-list '("\u200b"))
+  )
 
 
-
-;; Get rid of c-z minimizing the window
-(global-set-key "\C-z" nil)
 
 ;; Helm
-(require 'helm)
-(require 'helm-ag)
-;;(global-set-key "\C-x\C-f" 'helm-find-files)
-(global-set-key "\C-\M-g" 'helm-do-ag)
-(global-set-key "\M-i" 'helm-projectile-ag)
-(projectile-global-mode 1)
-(helm-mode)
-(setq projectile-completion-system 'helm)
-(helm-projectile-on)
-(define-key projectile-mode-map (kbd "C-c p") 'helm-projectile)
+(use-package helm)
+(use-package helm-ag
+  :config
+  ;;(global-set-key "\C-x\C-f" 'helm-find-files)
+  (global-set-key "\C-\M-g" 'helm-do-ag)
+  (global-set-key "\M-i" 'helm-projectile-ag)
+  )
+(use-package projectile)
+(use-package helm-projectile
+  :config
+  (projectile-global-mode 1)
+  (setq projectile-completion-system 'helm)
+  (helm-projectile-on)
+  (define-key projectile-mode-map (kbd "C-c p") 'helm-projectile)
+  )
 
 
 ;; Clojure
@@ -107,8 +139,10 @@
 (add-hook 'clojure-mode-hook 'paredit-mode)
 (add-hook 'clojure-mode-hook 'prettify-symbols-mode)
 
-(require 'company)
-(add-hook 'after-init-hook 'global-company-mode)
+(use-package company
+  :config
+  (add-hook 'after-init-hook 'global-company-mode)
+)
 
 ;; Kill whitespace
 (global-set-key "\C-\M-w" 'fixup-whitespace)
@@ -148,13 +182,6 @@
  (scroll-up n))
 (global-set-key "\M-n" 'ctrl-y-in-vi)
 (global-set-key "\M-p" 'ctrl-e-in-vi)
-; autocomplete (only on version 23.x)
-;(if (string= (substring emacs-version 0 3) "23.")
-;    (progn (add-to-list 'load-path "~/.emacs.d/")
-;           (require 'auto-complete-config)
-;           (add-to-list 'ac-dictionary-directories "~/.emacs.d//ac-dict")
-;           (ac-config-default))
-;)
  
 ; undo is already bound to C-/
 (menu-bar-enable-clipboard)
@@ -167,7 +194,6 @@
 (add-to-list 'auto-mode-alist '("\\.ts" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.cpp" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.h" . c++--mode))
-
 
 (define-key minibuffer-local-map [f3]
   (lambda() (interactive) (insert (buffer-file-name (nth 1 (buffer-list))))))
@@ -209,7 +235,7 @@
      ("melpa" . "http://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags evil evil-visual-mark-mode ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode tabbar rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout)))
+    (use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags evil evil-visual-mark-mode ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode tabbar rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout)))
  '(recentf-menu-filter (quote recentf-sort-ascending))
  '(recentf-mode t nil (recentf))
  '(ring-bell-function (quote ignore))
@@ -239,16 +265,6 @@
  '(tabbar-button ((t (:inherit default :box (:line-width 1 :color "white" :style released-button)))))
  '(tabbar-default ((t (:inherit variable-pitch :background "gray75" :foreground "gray50" :height 1.0)))))
 
-(defun comment-end-of-function (arg)
-  ;; jvd: copies the function name (at the cursor) and puts it as a comment at the end
-  (interactive "p")
-  (kill-sexp)
-  (yank)
-  (forward-list)
-  (forward-list)
-  (insert "// end ")
-  (yank)
-)
 ;; Frame title bar formatting to show full path of file
 (setq-default
  frame-title-format
@@ -314,24 +330,11 @@ Uses `current-date-time-format' for the formatting the date/time."
 
 ; See https://github.com/js-emacs/xref-js2
 ; Note that xref-js2 requires 'ag' installed, both in emacs and on your host.
-(require 'js)
-(add-hook 'js2-mode-hook (lambda ()  (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
-(add-hook 'js2-mode-hook (lambda () (define-key js2-mode-map (kbd "M-.") nil)))
-
-;; Org mode
-(require 'org)
-(define-key org-mode-map (kbd "M-a") 'org-show-all)
-
-;; Source-block
-(defun mark-region-as-src () (interactive)
-       (save-excursion
-         (goto-char (region-end))
-         (insert "#+END_SRC\n")
-         (goto-char (region-beginning))
-         (insert "#+BEGIN_SRC\n")
-         )
-       )
-(define-key org-mode-map (kbd "M-s") 'mark-region-as-src)
+(use-package js
+  :config
+  (add-hook 'js2-mode-hook (lambda ()  (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+  (add-hook 'js2-mode-hook (lambda () (define-key js2-mode-map (kbd "M-.") nil)))
+)
 
 
 ;; Evil mode
@@ -346,14 +349,17 @@ Uses `current-date-time-format' for the formatting the date/time."
   (evil-mode 0)
   )
 
-(require 'evil)
-(require 'evil-states)
-(define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-(define-key evil-normal-state-map (kbd "C-s") 'save-buffer)
-(define-key evil-normal-state-map (kbd "C-S-S") 'isearch-forward)
-(define-key evil-insert-state-map (kbd "C-s") '(lambda () (interactive) (evil-force-normal-state) (save-buffer)))
-
+(use-package evil)
+(use-package evil-states
+  :config
+  (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+  (define-key evil-normal-state-map (kbd "C-s") 'save-buffer)
+  (define-key evil-normal-state-map (kbd "C-S-S") 'isearch-forward)
+  (define-key evil-insert-state-map (kbd "C-s") '(lambda () (interactive) (evil-force-normal-state) (save-buffer)))
+  )
 
 ;; Use evil mode by default
 (evil)
 
+;; Use helm
+(helm-mode)
