@@ -81,12 +81,14 @@
 ; Prompts for a background color for selection
 (global-set-key "\C-\M-y" 'facemenu-set-background)
 
+global-map
+
 ;; org mode
 (use-package org 
   :config
   (define-key global-map "\C-cl" 'org-store-link)
   (define-key global-map "\C-ca" 'org-agenda)
-  (define-key org-mode-map (kbd "M-a") 'org-show-all)
+  (define-key org-mode-map (kbd "M-a") 'outline-show-all)
   (add-hook 'org-mode-hook 'visual-line-mode) 
 
   ;; Source-block
@@ -116,7 +118,6 @@
   ;; Eliminate all header bullets 
   (setq org-bullets-bullet-list '("\u200b"))
   )
-
 
 
 ;; Helm
