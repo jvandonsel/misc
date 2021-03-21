@@ -18,6 +18,10 @@
 ;; Get rid of c-z minimizing the window
 (global-set-key "\C-z" nil)
 
+;; Text resizing
+(global-set-key (kbd "C-_") 'text-scale-decrease)
+(global-set-key (kbd "C-+") 'text-scale-increase)
+
 (ctags-global-auto-update-mode)
 (setq ctags-update-prompt-create-tags nil);you need manually create TAGS in your project
 
