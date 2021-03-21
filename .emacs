@@ -465,3 +465,6 @@ Uses `current-date-time-format' for the formatting the date/time."
 
 ;; Use helm
 (helm-mode)
+
+;; Frame size
+(when window-system (set-frame-size (selected-frame) 150 50))
