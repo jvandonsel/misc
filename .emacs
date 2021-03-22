@@ -1,3 +1,4 @@
+
 ;; Jim Van Donsel's .emacs file
 (when (>= emacs-major-version 24)
   (require 'package)
@@ -52,8 +53,11 @@
 ; line numbers
 ;(global-linum-mode 1)
 (setq make-backup-files nil)
+
 ; Highlight current line
-(setq global-hl-line-mode t)
+(global-hl-line-mode t)
+(set-face-background 'hl-line "#E4E4E4")
+
 (setq grep-command "grep -r -nH ")
 ; Sentences end in a period and a single space
 (setq sentence-end-double-space nil)
@@ -111,9 +115,9 @@ global-map
   :config
   (setq org-hide-emphasis-markers t)
   (setq org-hide-leading-stars t)
-  (add-hook 'org-mode-hook (lambda () (set-face-attribute 'org-level-1 nil :height 2.5)))
-  (add-hook 'org-mode-hook (lambda () (set-face-attribute 'org-level-2 nil :height 1.5)))
-  (add-hook 'org-mode-hook (lambda () (set-face-attribute 'org-level-2 nil :height 1.0)))
+  (add-hook 'org-mode-hook (lambda () (set-face-attribute 'org-level-1 nil :height 2.0)))
+  (add-hook 'org-mode-hook (lambda () (set-face-attribute 'org-level-2 nil :height 1.3)))
+  (add-hook 'org-mode-hook (lambda () (set-face-attribute 'org-level-2 nil :height 0.8)))
   )
 
 (use-package org-bullets
