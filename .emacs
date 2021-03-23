@@ -210,6 +210,7 @@ global-map
 (add-to-list 'auto-mode-alist '("\\.ts" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.cpp" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.h" . c++--mode))
+(add-to-list 'auto-mode-alist '("\\.html" . web-mode))
 
 (define-key minibuffer-local-map [f3]
   (lambda() (interactive) (insert (buffer-file-name (nth 1 (buffer-list))))))
