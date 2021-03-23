@@ -31,7 +31,10 @@
 (setq exec-path (append exec-path '("/Users/jdonsel/bin")))
 
 (use-package misc)
-(use-package magit)
+
+
+
+
 (use-package markdown-mode)
 (use-package tabbar)
 (use-package web-mode)
@@ -41,7 +44,7 @@
 ;(setq tags-file-name "~/tags")
 
 ; truncate lines
-(setq-default truncate-lines nil)
+(setq-default truncate-lines t)
 ; enable column numbering
 (column-number-mode t)
 ; Yank will overwrite current selection
@@ -231,14 +234,14 @@ global-map
  '(case-fold-search t)
  '(column-number-mode t)
  '(current-language-environment "UTF-8")
- '(custom-enabled-themes (quote (whiteboard)))
+ '(custom-enabled-themes '(whiteboard))
  '(default-input-method "rfc1345")
  '(focus-follows-mouse t)
  '(font-use-system-font nil)
  '(global-font-lock-mode t nil (font-lock))
  '(horizontal-scroll-bar-mode t)
  '(indent-tabs-mode nil)
- '(ispell-highlight-face (quote flyspell-incorrect))
+ '(ispell-highlight-face 'flyspell-incorrect)
  '(ispell-local-dictionary "american")
  '(ispell-program-name "/opt/local/bin/aspell")
  '(large-file-warning-threshold 1000000000)
@@ -247,35 +250,34 @@ global-map
  '(org-log-done t)
  '(org-startup-indented t)
  '(package-archives
-   (quote
-    (("elpa" . "http://elpa.gnu.org/packages/")
-     ("melpa" . "http://melpa.org/packages/"))))
+   '(("elpa" . "http://elpa.gnu.org/packages/")
+     ("melpa" . "http://melpa.org/packages/")))
  '(package-selected-packages
-   (quote
-    (use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags evil evil-visual-mark-mode ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode tabbar rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout)))
- '(recentf-menu-filter (quote recentf-sort-ascending))
+   '(use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags evil evil-visual-mark-mode ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode tabbar rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout))
+ '(recentf-menu-filter 'recentf-sort-ascending)
  '(recentf-mode t nil (recentf))
- '(ring-bell-function (quote ignore))
+ '(ring-bell-function 'ignore)
  '(save-place t nil (saveplace))
- '(scroll-bar-mode (quote right))
+ '(save-place-mode t nil (saveplace))
+ '(scroll-bar-mode 'right)
  '(scroll-conservatively 10)
  '(scroll-down-aggressively nil)
  '(scroll-step 1)
  '(scroll-up-aggressively nil)
  '(show-paren-mode t nil (paren))
  '(speedbar-show-unknown-files t)
- '(speedbar-tag-hierarchy-method (quote (speedbar-simple-group-tag-hierarchy)))
+ '(speedbar-tag-hierarchy-method '(speedbar-simple-group-tag-hierarchy))
  '(tabbar-mode t nil (tabbar))
  '(tabbar-mwheel-mode t nil (tabbar))
  '(tool-bar-mode nil nil (tool-bar))
- '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
+ '(uniquify-buffer-name-style 'forward nil (uniquify)))
 (setq truncate-partial-width-windows 1)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :extend nil :stipple nil :background "whitesmoke" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "DAMA" :family "Ubuntu Mono"))))
+ '(default ((t (:inherit nil :extend nil :stipple nil :background "whitesmoke" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 90 :width normal :foundry "1ASC" :family "Liberation Mono"))))
  '(font-lock-comment-face ((((class color) (background light)) (:foreground "Dark Green"))))
  '(font-lock-string-face ((((class color) (background light)) (:foreground "Red"))))
  '(mode-line ((t (:background "MediumPurple1" :foreground "White" :box (:line-width -1 :style released-button)))))
@@ -446,6 +448,12 @@ Uses `current-date-time-format' for the formatting the date/time."
   :after (treemacs persp-mode) ;;or perspective vs. persp-mode
   :ensure t
   :config (treemacs-set-scope-type 'Perspectives))
+
+;; Magit
+(use-package magit
+  :config
+  (define-key global-map (kbd "M-m") 'magit)
+  )
 
 
 ;; Evil mode
