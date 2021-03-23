@@ -20,7 +20,8 @@
 (global-set-key "\C-z" nil)
 
 ;; Text resizing
-(global-set-key (kbd "C-_") 'text-scale-decrease)
+;; We need to use this funny bind-key to override the undo-tree-undo binding.
+(bind-key*  "C-_" 'text-scale-decrease)
 (global-set-key (kbd "C-+") 'text-scale-increase)
 
 (ctags-global-auto-update-mode)
