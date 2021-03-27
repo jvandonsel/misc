@@ -38,7 +38,6 @@
 
 (setq inhibit-splash-screen t)
 (setq visible-bell nil)
-;(setq tags-file-name "~/tags")
 
 ; truncate lines
 (setq-default truncate-lines t)
@@ -54,28 +53,37 @@
 ;(global-linum-mode 1)
 (setq make-backup-files nil)
 
-;; Comment
-(global-set-key (kbd "C-;") 'comment-region)
+;; Comment line or region
+(global-set-key (kbd "C-;") '(lambda (begin end) (interactive "r") (if mark-active (comment-region begin end) (comment-line 1))))
 
-; Highlight current line
+
+; highlight current line
 (global-hl-line-mode t)
 (set-face-background 'hl-line "#E4E4E4")
 
 (setq grep-command "grep -r -nH ")
+
 ; Sentences end in a period and a single space
 (setq sentence-end-double-space nil)
+
 ; Count lines even if they are long
 (setq line-number-display-limit-width 10000)
+
 ;; yes-or-no -> y-or-n
 (fset 'yes-or-no-p 'y-or-n-p)
+
 ; Treat '_' as a word character
 (setq c-mode-hook '(lambda ()   (modify-syntax-entry ?_ "w")))
+
 ; Force horizontal splitting                                                                                                                 
 (setq split-width-threshold nil)
+
 (global-set-key [f3] 'buffer-menu)
 (global-set-key [f4] 'find-file)
+
 ; revert buffer
 (global-set-key "\M-r" 'revert-buffer)
+
 (global-set-key [(control x) (control b)] 'buffer-menu)
 (global-set-key "\M-g" 'goto-line)
 (global-set-key (kbd "C-o") 'open-next-line)
@@ -89,6 +97,7 @@
 (global-set-key "\C-x\C-o" 'other-window)
 (global-set-key "\C-xm" 'my-bookmark-set)
 (global-set-key "\C-xj" 'my-bookmark-jump)
+
 ; Prompts for a background color for selection
 (global-set-key "\C-\M-y" 'facemenu-set-background)
 
@@ -313,16 +322,16 @@ global-map
 (put 'scroll-left 'disabled nil)
  
 ;; Flymake - lint for python
-(when (load "flymake" t)
-      (defun flymake-pylint-init ()
-        (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                           'flymake-create-temp-inplace))
-           (local-file (file-relative-name
-                        temp-file
-                        (file-name-directory buffer-file-name))))
-          (list "/usr/local/bin/epylint" (list local-file))))
- (add-to-list 'flymake-allowed-file-name-masks
-               '("\\.py\\'" flymake-pylint-init)))
+;; (when (load "flymake" t)
+;;       (defun flymake-pylint-init ()
+;;         (let* ((temp-file (flymake-init-create-temp-buffer-copy
+;;                            'flymake-create-temp-inplace))
+;;            (local-file (file-relative-name
+;;                         temp-file
+;;                         (file-name-directory buffer-file-name))))
+;;           (list "/usr/local/bin/epylint" (list local-file))))
+;;  (add-to-list 'flymake-allowed-file-name-masks
+;;                '("\\.py\\'" flymake-pylint-init)))
 
 ;; ====================
 ;; insert date and time
@@ -337,7 +346,7 @@ Uses `current-date-time-format' for the formatting the date/time."
        (insert (format-time-string current-date-time-format (current-time)))
        )
 
-(global-set-key "\C-\M-d" 'insert-current-date-time)
+;;(global-set-key "\C-\M-d" 'insert-current-date-time)
 
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
 
@@ -517,7 +526,7 @@ Uses `current-date-time-format' for the formatting the date/time."
   )
 
 ;; Use evil mode by default
-(evil)
+;(evil)
 
 ;; Use helm
 (helm-mode)
