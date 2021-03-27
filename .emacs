@@ -457,6 +457,38 @@ Uses `current-date-time-format' for the formatting the date/time."
   )
 
 
+;; Transform each line in a region by running function 'f'
+;; TODO: the kill/insert makes the buffer look funny when executed. Do it in place instead.
+;; Author: jvd
+(defun transform-region (beginning end f)
+
+  ;; Grab the whole block of text
+  (setq block (buffer-substring beginning end))
+
+  ;; Kill the block
+  (kill-region beginning end)
+
+  ;; Split the text
+  (setq lines (split-string block))
+
+  ;; apply the function to each line
+  (setq xformed_lines (mapcar f lines))
+
+  ;; Join lines
+  (setq xformed_block (string-join xformed_lines "\n"))
+
+  ;; put back the block of text with the transform
+  (insert xformed_block)
+  )
+
+;; Example invocation of transform-region
+(defun transform-region-example (beginning end) (interactive "r")
+       (transform-region beginning end
+                         (lambda (line)
+                           (replace-regexp-in-string "a" "X" line))
+                         ))
+
+
 ;; Evil mode
 (defun evil ()  
   (interactive)
