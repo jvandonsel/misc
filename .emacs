@@ -32,10 +32,6 @@
 (setq exec-path (append exec-path '("/Users/jdonsel/bin")))
 
 (use-package misc)
-
-
-
-
 (use-package markdown-mode)
 (use-package tabbar)
 (use-package web-mode)
@@ -57,6 +53,9 @@
 ; line numbers
 ;(global-linum-mode 1)
 (setq make-backup-files nil)
+
+;; Comment
+(global-set-key (kbd "C-;") 'comment-region)
 
 ; Highlight current line
 (global-hl-line-mode t)
@@ -457,36 +456,43 @@ Uses `current-date-time-format' for the formatting the date/time."
   )
 
 
-;; Transform each line in a region by running function 'f'
-;; TODO: the kill/insert makes the buffer look funny when executed. Do it in place instead.
+;; Transform a region by running function 'f' on each line.
 ;; Author: jvd
-(defun transform-region (beginning end f)
+(defun transform-region-by-line (beginning end f)
+  (save-excursion
+    (let*
+        (
+         ;; Grab the whole block of text from the region
+         (block (buffer-substring-no-properties beginning end))
 
-  ;; Grab the whole block of text
-  (setq block (buffer-substring beginning end))
+         ;; Split the text into lines
+         (lines (split-string block "\n"))
 
-  ;; Kill the block
-  (kill-region beginning end)
+         ;; Apply the function to each line
+         (xformed_lines (mapcar f lines))
 
-  ;; Split the text
-  (setq lines (split-string block))
+         ;; Join lines
+         (xformed_block (string-join xformed_lines "\n"))
+         )
 
-  ;; apply the function to each line
-  (setq xformed_lines (mapcar f lines))
 
-  ;; Join lines
-  (setq xformed_block (string-join xformed_lines "\n"))
+      ;; Delete the old region
+      (delete-region beginning end)
 
-  ;; put back the block of text with the transform
-  (insert xformed_block)
-  )
+      ;; Put back the block of text with the transform
+      (insert xformed_block)
+      )))
 
-;; Example invocation of transform-region
+
+
+;; Example invocation of transform-region-by-line
 (defun transform-region-example (beginning end) (interactive "r")
-       (transform-region beginning end
-                         (lambda (line)
-                           (replace-regexp-in-string "a" "X" line))
-                         ))
+       (transform-region-by-line beginning end
+                                 (lambda (line)
+                                   (replace-regexp-in-string "a" "X" line)
+                                   )
+                                 ))
+
 
 
 ;; Evil mode
