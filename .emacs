@@ -1,5 +1,7 @@
-
+;;--------------------------------------------------------------------------------
 ;; Jim Van Donsel's .emacs file
+;;--------------------------------------------------------------------------------
+
 (when (>= emacs-major-version 24)
   (require 'package)
   (add-to-list
@@ -16,13 +18,19 @@
 ; Follow buffers
 (setq mouse-autoselect-window t)
 
-;; Get rid of c-z minimizing the window
+;; Get rid of c-z minimizing the window 
 (global-set-key "\C-z" nil)
 
+;; Fill paragraph width
+(setq-default fill-column 100)
+
 ;; Text resizing
-;; We need to use this funny bind-key to override the undo-tree-undo binding.
+;; We need to use this funny bind-key to override the undo-tree-undo minor mode binding.
 (bind-key*  "C-_" 'text-scale-decrease)
 (global-set-key (kbd "C-+") 'text-scale-increase)
+
+;; Super-word mode (consider snake_case as one word)
+(global-superword-mode)
 
 (ctags-global-auto-update-mode)
 (setq ctags-update-prompt-create-tags nil);you need manually create TAGS in your project
@@ -39,23 +47,25 @@
 (setq inhibit-splash-screen t)
 (setq visible-bell nil)
 
-; truncate lines
+;; truncate lines
 (setq-default truncate-lines t)
-; enable column numbering
+
+;; enable column numbering
 (column-number-mode t)
-; Yank will overwrite current selection
+
+;; Yank will overwrite current selection
 (delete-selection-mode 1)
 
-;(setq elpy-rpc-virtualenv-path ’current)
+;;(setq elpy-rpc-virtualenv-path ’current)
 
-; no backups
-; line numbers
-;(global-linum-mode 1)
+;; no backups
+;; line numbers
+;;(global-linum-mode 1)
 (setq make-backup-files nil)
 
-;; Comment line or region
-(global-set-key (kbd "C-;") '(lambda (begin end) (interactive "r") (if mark-active (comment-region begin end) (comment-line 1))))
 
+;; Comment out line or region, since M-; (comment-dwim) tries to be too smart
+(global-set-key (kbd "C-;") '(lambda (begin end) (interactive "r") (if mark-active (comment-region begin end) (comment-line 1))))
 
 ; highlight current line
 (global-hl-line-mode t)
@@ -63,16 +73,16 @@
 
 (setq grep-command "grep -r -nH ")
 
-; Sentences end in a period and a single space
+;; Sentences end in a period and a single space
 (setq sentence-end-double-space nil)
 
-; Count lines even if they are long
+;; Count lines even if they are long
 (setq line-number-display-limit-width 10000)
 
 ;; yes-or-no -> y-or-n
 (fset 'yes-or-no-p 'y-or-n-p)
 
-; Treat '_' as a word character
+;; Treat '_' as a word character
 (setq c-mode-hook '(lambda ()   (modify-syntax-entry ?_ "w")))
 
 ; Force horizontal splitting                                                                                                                 
@@ -81,14 +91,14 @@
 (global-set-key [f3] 'buffer-menu)
 (global-set-key [f4] 'find-file)
 
-; revert buffer
+;; revert buffer
 (global-set-key "\M-r" 'revert-buffer)
 
 (global-set-key [(control x) (control b)] 'buffer-menu)
 (global-set-key "\M-g" 'goto-line)
 (global-set-key (kbd "C-o") 'open-next-line)
 (global-set-key "\M-f" 'forward-to-word)
-;(global-set-key [\C-right] 'forward-to-word)
+;;(global-set-key [\C-right] 'forward-to-word)
 (global-set-key "\C-xg" 'rgrep)
 (global-set-key [\C-up] '(lambda () (interactive) (previous-line) (previous-line) (previous-line) (previous-line) (previous-line)))
 (global-set-key [\C-down] '(lambda () (interactive) (next-line) (next-line) (next-line) (next-line) (next-line)))
@@ -98,10 +108,10 @@
 (global-set-key "\C-xm" 'my-bookmark-set)
 (global-set-key "\C-xj" 'my-bookmark-jump)
 
-; Prompts for a background color for selection
+;; Prompts for a background color for selection
+;; FIXME: doesn't work any more
 (global-set-key "\C-\M-y" 'facemenu-set-background)
 
-global-map
 
 ;; org mode
 (use-package org 
@@ -502,7 +512,9 @@ Uses `current-date-time-format' for the formatting the date/time."
                                    )
                                  ))
 
-
+;; Cider
+(use-package cider)
+(use-package ac-cider)
 
 ;; Evil mode
 (defun evil ()  
@@ -522,14 +534,14 @@ Uses `current-date-time-format' for the formatting the date/time."
   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
   (define-key evil-normal-state-map (kbd "C-s") 'save-buffer)
   (define-key evil-normal-state-map (kbd "C-S-S") 'isearch-forward)
+  ;; C-S will save and return to normal mode
   (define-key evil-insert-state-map (kbd "C-s") '(lambda () (interactive) (evil-force-normal-state) (save-buffer)))
-  )
 
-;; Use evil mode by default
-;(evil)
+  )
 
 ;; Use helm
 (helm-mode)
 
-;; Frame size
+;; Starting frame size
 (when window-system (set-frame-size (selected-frame) 150 50))
+
