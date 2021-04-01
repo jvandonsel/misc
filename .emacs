@@ -475,9 +475,10 @@ Uses `current-date-time-format' for the formatting the date/time."
   )
 
 
-;; Transform a region by running function 'f' on each line.
-;; Author: jvd
 (defun transform-region-by-line (beginning end f)
+  "Transform a region by running function 'f' on each line.
+   Author: jvd 
+   "
   (save-excursion
     (let*
         (
