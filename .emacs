@@ -146,8 +146,12 @@
 (use-package org-bullets
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+
   ;; Eliminate all header bullets 
-  (setq org-bullets-bullet-list '("\u200b"))
+  ;; (setq org-bullets-bullet-list '("\u200b"))
+
+  ;; Set the bullets to a circle
+  (setq org-bullets-bullet-list '("●"))
   )
 
 
@@ -155,7 +159,6 @@
 (use-package helm)
 (use-package helm-ag
   :config
-  ;;(global-set-key "\C-x\C-f" 'helm-find-files)
   (global-set-key "\C-\M-g" 'helm-do-ag)
   (global-set-key "\M-i" 'helm-projectile-ag)
   )
@@ -263,11 +266,11 @@
  '(indent-tabs-mode nil)
  '(ispell-highlight-face 'flyspell-incorrect)
  '(ispell-local-dictionary "american")
- '(ispell-program-name "/opt/local/bin/aspell")
+ '(ispell-program-name "/usr/bin/aspell")
  '(large-file-warning-threshold 1000000000)
  '(org-indent-indentation-per-level 2)
  '(org-list-indent-offset 8)
- '(org-log-done t)
+ '(org-log-done nil)
  '(org-startup-indented t)
  '(package-archives
    '(("elpa" . "http://elpa.gnu.org/packages/")
