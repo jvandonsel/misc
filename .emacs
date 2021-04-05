@@ -266,6 +266,7 @@
  '(indent-tabs-mode nil)
  '(ispell-highlight-face 'flyspell-incorrect)
  '(ispell-local-dictionary "american")
+ '(ispell-personal-dictionary "~/.aspell.en.pws")
  '(ispell-program-name "/usr/bin/aspell")
  '(large-file-warning-threshold 1000000000)
  '(org-indent-indentation-per-level 2)
@@ -276,7 +277,7 @@
    '(("elpa" . "http://elpa.gnu.org/packages/")
      ("melpa" . "http://melpa.org/packages/")))
  '(package-selected-packages
-   '(lsp-mode cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags evil evil-visual-mark-mode ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode tabbar rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout))
+   '(lsp-mode spell-fu cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags evil evil-visual-mark-mode ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode tabbar rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout))
  '(recentf-menu-filter 'recentf-sort-ascending)
  '(recentf-mode t nil (recentf))
  '(ring-bell-function 'ignore)
@@ -515,6 +516,24 @@ Uses `current-date-time-format' for the formatting the date/time."
                                    (replace-regexp-in-string "a" "X" line)
                                    )
                                  ))
+
+;; spell-fu
+(use-package spell-fu
+  :config
+  )
+;; (global-spell-fu-mode)
+(add-hook 'org-mode-hook
+  (lambda ()
+    (setq spell-fu-faces-exclude '(org-meta-line org-link org-code))
+    ;; Exclude words starting with a capital
+    ;; (setq spell-fu-word-regexp "\\b\\([[a-z]][[:alpha:]]*\\('[[:alpha:]]*\\)?\\)\\b")
+    (spell-fu-mode)))
+
+(add-hook 'emacs-lisp-mode-hook
+  (lambda ()
+    (spell-fu-mode)))
+
+
 
 ;; Cider
 (use-package cider)
