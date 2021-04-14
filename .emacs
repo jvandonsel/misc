@@ -32,9 +32,6 @@
 ;; Super-word mode (consider snake_case as one word)
 (global-superword-mode)
 
-(ctags-global-auto-update-mode)
-(setq ctags-update-prompt-create-tags nil);you need manually create TAGS in your project
-
 ; Mac
 (setenv "PATH" (concat (getenv "PATH") ":/Users/jdonsel/bin"))
 (setq exec-path (append exec-path '("/Users/jdonsel/bin")))
@@ -300,7 +297,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :extend nil :stipple nil :background "whitesmoke" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 90 :width normal :foundry "1ASC" :family "Liberation Mono"))))
+ '(default ((t (:inherit nil :extend nil :stipple nil :background "whitesmoke" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 90 :width normal :foundry "1ASC" :family "Lucida Console"))))
  '(font-lock-comment-face ((((class color) (background light)) (:foreground "Dark Green"))))
  '(font-lock-string-face ((((class color) (background light)) (:foreground "Red"))))
  '(mode-line ((t (:background "MediumPurple1" :foreground "White" :box (:line-width -1 :style released-button)))))
@@ -577,6 +574,8 @@ Uses `current-date-time-format' for the formatting the date/time."
 (use-package lsp-ui
   :commands lsp-ui-mode)
 
+;; Mac command key
+(setq mac-command-modifier 'meta)
 
 (use-package dash)
 (use-package yasnippet)
