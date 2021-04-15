@@ -166,6 +166,8 @@
   (setq projectile-completion-system 'helm)
   (helm-projectile-on)
   (define-key projectile-mode-map (kbd "C-c p") 'helm-projectile)
+  (add-to-list 'projectile-globally-ignored-directories "node_modules")
+  (setq helm-candidate-number-limit 200)
   )
 
 
@@ -274,7 +276,7 @@
    '(("elpa" . "http://elpa.gnu.org/packages/")
      ("melpa" . "http://melpa.org/packages/")))
  '(package-selected-packages
-   '(go-mode lsp-ui lsp-python-ms yasnippet dash lsp-pyright lsp-mode spell-fu cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags evil evil-visual-mark-mode ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode tabbar rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout))
+   '(jq-format go-mode lsp-ui lsp-python-ms yasnippet dash lsp-pyright lsp-mode spell-fu cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags evil evil-visual-mark-mode ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode tabbar rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout))
  '(recentf-menu-filter 'recentf-sort-ascending)
  '(recentf-mode t nil (recentf))
  '(ring-bell-function 'ignore)
@@ -297,7 +299,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :extend nil :stipple nil :background "whitesmoke" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 113 :width normal :foundry "DAMA" :family "Ubuntu Mono"))))
+ '(default ((t (:inherit nil :extend nil :stipple nil :background "whitesmoke" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "JB  " :family "JetBrains Mono"))))
  '(font-lock-comment-face ((((class color) (background light)) (:foreground "Dark Green"))))
  '(font-lock-string-face ((((class color) (background light)) (:foreground "Red"))))
  '(mode-line ((t (:background "MediumPurple1" :foreground "White" :box (:line-width -1 :style released-button)))))
