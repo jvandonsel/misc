@@ -36,10 +36,13 @@
 (setenv "PATH" (concat (getenv "PATH") ":/Users/jdonsel/bin"))
 (setq exec-path (append exec-path '("/Users/jdonsel/bin")))
 
-(use-package misc)
-(use-package markdown-mode)
+;(use-package misc)
+(use-package markdown-mode
+  :mode  "\\.md\\'")
 (use-package tabbar)
-(use-package web-mode)
+(use-package web-mode
+  :defer t
+  )
 
 (setq inhibit-splash-screen t)
 (setq visible-bell nil)
@@ -112,6 +115,7 @@
 
 ;; org mode
 (use-package org 
+  :mode ("\\.org\\'" . org-mode)
   :config
   (define-key global-map "\C-cl" 'org-store-link)
   (define-key global-map "\C-ca" 'org-agenda)
@@ -132,6 +136,7 @@
 
   )
 (use-package org-tree-slide
+  :after  org
   :config
   (setq org-hide-emphasis-markers t)
   (setq org-hide-leading-stars t)
@@ -141,6 +146,7 @@
   )
 
 (use-package org-bullets
+  :after  org
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
@@ -187,6 +193,7 @@
 
 ;; Paredit
 (use-package paredit
+  :defer t
   :config
   (add-hook 'clojure-mode-hook 'paredit-mode)
   ;; Redefine some paredit keys
@@ -299,7 +306,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :extend nil :stipple nil :background "whitesmoke" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 90 :width normal :foundry "JB  " :family "JetBrains Mono"))))
+ '(default ((t (:inherit nil :extend nil :stipple nil :background "whitesmoke" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "1ASC" :family "Liberation Mono"))))
  '(font-lock-comment-face ((((class color) (background light)) (:foreground "Dark Green"))))
  '(font-lock-string-face ((((class color) (background light)) (:foreground "Red"))))
  '(mode-line ((t (:background "MediumPurple1" :foreground "White" :box (:line-width -1 :style released-button)))))
@@ -369,12 +376,19 @@ Uses `current-date-time-format' for the formatting the date/time."
 
 (setq scroll-step 1) ;; keyboard scroll one line at a time
 
-(use-package xref-js2)
+
 (use-package js
+  :ensure t
+  :defer t
   :config
   (add-hook 'js2-mode-hook (lambda ()  (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
   (add-hook 'js2-mode-hook (lambda () (define-key js2-mode-map (kbd "M-.") nil)))
-)
+  )
+
+(use-package xref-js2
+  :ensure t
+  :after js
+  )
 
 (use-package treemacs
   :ensure t
@@ -473,8 +487,7 @@ Uses `current-date-time-format' for the formatting the date/time."
 
 ;; Magit
 (use-package magit
-  :config
-  (define-key global-map (kbd "M-m") 'magit)
+  :bind  ("M-m" . magit)
   )
 
 
@@ -518,6 +531,7 @@ Uses `current-date-time-format' for the formatting the date/time."
 
 ;; spell-fu
 (use-package spell-fu
+  :defer t
   :config
   )
 ;; (global-spell-fu-mode)
@@ -533,10 +547,13 @@ Uses `current-date-time-format' for the formatting the date/time."
     (spell-fu-mode)))
 
 
-
 ;; Cider
-(use-package cider)
-(use-package ac-cider)
+(use-package cider
+  :defer t)
+
+(use-package ac-cider
+  :after cider
+  )
 
 ;; Evil mode
 (defun evil ()  
@@ -550,8 +567,13 @@ Uses `current-date-time-format' for the formatting the date/time."
   (evil-mode 0)
   )
 
-(use-package evil)
+(use-package evil
+  :defer t
+  :ensure t
+  )
+
 (use-package evil-states
+  :after evil
   :config
   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
   (define-key evil-normal-state-map (kbd "C-s") 'save-buffer)
@@ -579,11 +601,15 @@ Uses `current-date-time-format' for the formatting the date/time."
 ;; Mac command key
 (setq mac-command-modifier 'meta)
 
-(use-package dash)
-(use-package yasnippet)
-1
+(use-package dash
+  :defer t
+  )
+(use-package yasnippet
+  :defer t)
+
 ;; GO
 (use-package go-mode
+  :mode "\\.go\\'"
   :config
   (add-hook 'go-mode-hook
             (lambda ()
