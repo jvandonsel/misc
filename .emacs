@@ -53,6 +53,10 @@
 ;; enable column numbering
 (column-number-mode t)
 
+;; Enable native tab bar
+;; (tab-bar-mode t)
+(global-tab-line-mode)
+
 ;; Yank will overwrite current selection
 (delete-selection-mode 1)
 
@@ -70,6 +74,8 @@
 ; highlight current line
 (global-hl-line-mode t)
 (set-face-background 'hl-line "#E4E4E4")
+
+(set-background-color "#E8E8E8")
 
 (setq grep-command "grep -r -nH ")
 
@@ -140,8 +146,8 @@
   :config
   (setq org-hide-emphasis-markers t)
   (setq org-hide-leading-stars t)
-  (add-hook 'org-mode-hook (lambda () (set-face-attribute 'org-level-1 nil :height 2.0)))
-  (add-hook 'org-mode-hook (lambda () (set-face-attribute 'org-level-2 nil :height 1.3)))
+  (add-hook 'org-mode-hook (lambda () (set-face-attribute 'org-level-1 nil :height 1.3)))
+  (add-hook 'org-mode-hook (lambda () (set-face-attribute 'org-level-2 nil :height 1.0)))
   (add-hook 'org-mode-hook (lambda () (set-face-attribute 'org-level-2 nil :height 0.8)))
   )
 
@@ -203,8 +209,11 @@
   (global-set-key [\C-\M-right] 'paredit-forward)
   (global-set-key [\C-\M-left] 'paredit-backward)
   )
- 
-; Recursive edit
+
+;; auto-save
+(setq auto-save-default nil)
+
+;; Recursive edit
 ;; Enter a recursive edit. C-M-c will bring back exactly there
 (global-set-key (kbd "C-c r") (lambda ()
                                 (interactive)
@@ -235,7 +244,7 @@
 (menu-bar-enable-clipboard)
 (put 'dired-find-alternate-file 'disabled nil)
 (add-to-list 'auto-mode-alist '("\\.clj" . clojure-mode))
-(add-to-list 'auto-mode-alist '("\\.kmap" . xml-mode))
+(add-to-list 'auto-mode-alist '("\\.launch" . xml-mode))
 (add-to-list 'auto-mode-alist '("\\.jsp" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tag" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.js" . js2-mode))
@@ -275,6 +284,7 @@
  '(ispell-personal-dictionary "~/.aspell.en.pws")
  '(ispell-program-name "/usr/bin/aspell")
  '(large-file-warning-threshold 1000000000)
+ '(nxml-child-indent 4)
  '(org-indent-indentation-per-level 2)
  '(org-list-indent-offset 8)
  '(org-log-done nil)
@@ -283,7 +293,7 @@
    '(("elpa" . "http://elpa.gnu.org/packages/")
      ("melpa" . "http://melpa.org/packages/")))
  '(package-selected-packages
-   '(jq-format go-mode lsp-ui lsp-python-ms yasnippet dash lsp-pyright lsp-mode spell-fu cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags evil evil-visual-mark-mode ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode tabbar rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout))
+   '(typescript-mode vterm jq-format go-mode lsp-ui lsp-python-ms yasnippet dash lsp-pyright lsp-mode spell-fu cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags evil evil-visual-mark-mode ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout))
  '(recentf-menu-filter 'recentf-sort-ascending)
  '(recentf-mode t nil (recentf))
  '(ring-bell-function 'ignore)
@@ -296,8 +306,6 @@
  '(show-paren-mode t nil (paren))
  '(speedbar-show-unknown-files t)
  '(speedbar-tag-hierarchy-method '(speedbar-simple-group-tag-hierarchy))
- '(tabbar-mode t nil (tabbar))
- '(tabbar-mwheel-mode t nil (tabbar))
  '(tool-bar-mode nil nil (tool-bar))
  '(uniquify-buffer-name-style 'forward nil (uniquify)))
 (setq truncate-partial-width-windows 1)
@@ -309,9 +317,9 @@
  '(default ((t (:inherit nil :extend nil :stipple nil :background "whitesmoke" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "1ASC" :family "Liberation Mono"))))
  '(font-lock-comment-face ((((class color) (background light)) (:foreground "Dark Green"))))
  '(font-lock-string-face ((((class color) (background light)) (:foreground "Red"))))
- '(mode-line ((t (:background "MediumPurple1" :foreground "White" :box (:line-width -1 :style released-button)))))
- '(tabbar-button ((t (:inherit default :box (:line-width 1 :color "white" :style released-button)))))
- '(tabbar-default ((t (:inherit variable-pitch :background "gray75" :foreground "gray50" :height 1.0)))))
+ '(mode-line ((t (:background "MediumPurple1" :foreground "White" :box (:line-width -1 :style released-button))))))
+
+
 
 ;; Frame title bar formatting to show full path of file
 (setq-default
