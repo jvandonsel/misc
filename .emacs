@@ -38,8 +38,10 @@
 
 ;(use-package misc)
 (use-package markdown-mode
+  :ensure t
   :mode  "\\.md\\'")
-(use-package tabbar)
+(use-package tabbar
+  :ensure t)
 (use-package web-mode
   :defer t
   )
@@ -120,7 +122,8 @@
 
 
 ;; org mode
-(use-package org 
+(use-package org
+  :ensure t
   :mode ("\\.org\\'" . org-mode)
   :config
   (define-key global-map "\C-cl" 'org-store-link)
@@ -142,6 +145,7 @@
 
   )
 (use-package org-tree-slide
+  :ensure t
   :after  org
   :config
   (setq org-hide-emphasis-markers t)
@@ -152,6 +156,7 @@
   )
 
 (use-package org-bullets
+  :ensure t
   :after  org
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
@@ -165,14 +170,19 @@
 
 
 ;; Helm
-(use-package helm)
+(use-package helm
+  :ensure t)
+
 (use-package helm-ag
+  :ensure t
   :config
   (global-set-key "\C-\M-g" 'helm-do-ag)
   (global-set-key "\M-i" 'helm-projectile-ag)
   )
-(use-package projectile)
+(use-package projectile
+  :ensure t)
 (use-package helm-projectile
+  :ensure t
   :config
   (projectile-global-mode 1)
   (setq projectile-completion-system 'helm)
@@ -189,6 +199,7 @@
 (add-hook 'clojure-mode-hook 'prettify-symbols-mode)
 
 (use-package company
+  :ensure t
   :config
   (add-hook 'after-init-hook 'global-company-mode)
 )
@@ -293,7 +304,7 @@
    '(("elpa" . "http://elpa.gnu.org/packages/")
      ("melpa" . "http://melpa.org/packages/")))
  '(package-selected-packages
-   '(typescript-mode vterm jq-format go-mode lsp-ui lsp-python-ms yasnippet dash lsp-pyright lsp-mode spell-fu cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags evil evil-visual-mark-mode ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout))
+   '(treemacs-persp treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs typescript-mode vterm jq-format go-mode lsp-ui lsp-python-ms yasnippet dash lsp-pyright lsp-mode spell-fu cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags evil evil-visual-mark-mode ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout))
  '(recentf-menu-filter 'recentf-sort-ascending)
  '(recentf-mode t nil (recentf))
  '(ring-bell-function 'ignore)
