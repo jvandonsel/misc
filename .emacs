@@ -45,6 +45,9 @@
 (use-package web-mode
   :defer t
   )
+(use-package spell-fu
+  :ensure t
+  )
 
 (setq inhibit-splash-screen t)
 (setq visible-bell nil)
@@ -66,7 +69,7 @@
 
 ;; no backups
 ;; line numbers
-;;(global-linum-mode 1)
+(global-linum-mode 1)
 (setq make-backup-files nil)
 
 
