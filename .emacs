@@ -308,7 +308,7 @@
    '(("elpa" . "http://elpa.gnu.org/packages/")
      ("melpa" . "http://melpa.org/packages/")))
  '(package-selected-packages
-   '(web-beautify typescript-mode vterm jq-format go-mode lsp-ui lsp-python-ms yasnippet dash lsp-pyright lsp-mode spell-fu cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags evil evil-visual-mark-mode ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout))
+   '(indium web-beautify typescript-mode vterm jq-format go-mode lsp-ui yasnippet dash lsp-pyright lsp-mode spell-fu cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags evil evil-visual-mark-mode ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout))
  '(recentf-menu-filter 'recentf-sort-ascending)
  '(recentf-mode t nil (recentf))
  '(ring-bell-function 'ignore)
@@ -333,6 +333,7 @@
  '(font-lock-comment-face ((((class color) (background light)) (:foreground "Dark Green"))))
  '(font-lock-string-face ((((class color) (background light)) (:foreground "Red"))))
  '(mode-line ((t (:background "MediumPurple1" :foreground "White" :box (:line-width -1 :style released-button))))))
+
 
 
 
@@ -569,6 +570,47 @@ Uses `current-date-time-format' for the formatting the date/time."
   (lambda ()
     (spell-fu-mode)))
 
+;; Org babel
+(use-package ob-ipython
+  :ensure t)
+
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((python . t)))
+
+;; Run/highlight code using babel in org-mode
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '(
+   (python . t)
+   (ipython . t)
+;;   (sh . t)
+;; (shell . t)
+   ;; Include other languages here...
+   ))
+;; Syntax highlight in #+BEGIN_SRC blocks
+(setq org-src-fontify-natively t)
+;; Don't prompt before running code in org
+(setq org-confirm-babel-evaluate nil)
+;; Fix an incompatibility between the ob-async and ob-ipython packages
+(setq ob-async-no-async-languages-alist '("ipython"))
+
+;; Enable elpy
+(use-package elpy
+  :ensure t)
+(elpy-enable)
+;; Use IPython for REPL
+;; (setq python-shell-interpreter "jupyter"
+;;       python-shell-interpreter-args "console --simple-prompt"
+;;       python-shell-prompt-detect-failure-warning nil)
+(setq python-shell-interpreter "ipython"
+      python-shell-interpreter-args "console --simple-prompt"
+      python-shell-prompt-detect-failure-warning nil)
+(add-to-list 'python-shell-completion-native-disabled-interpreters
+             "jupyter")
+
+
 
 ;; Cider
 (use-package cider
@@ -617,9 +659,9 @@ Uses `current-date-time-format' for the formatting the date/time."
   :commands (lsp lsp-mode lsp-deferred)
   :init
   (setq lsp-keymap-prefix "C-c l"))
-(use-package lsp-python-ms)
-(use-package lsp-ui
-  :commands lsp-ui-mode)
+;;(use-package lsp-python-ms)
+;;(use-package lsp-ui
+;;  :commands lsp-ui-mode)
 
 ;; Mac command key
 (setq mac-command-modifier 'meta)
