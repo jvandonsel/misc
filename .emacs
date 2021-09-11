@@ -512,8 +512,9 @@ Uses `current-date-time-format' for the formatting the date/time."
 
 ;; Magit
 (use-package magit
-  :bind  ("M-m" . magit)
+  :ensure t
   )
+(global-set-key "\C-\M-m" 'magit)
 
 
 (defun transform-region-by-line (beginning end f)
