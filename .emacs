@@ -308,7 +308,7 @@
    '(("elpa" . "http://elpa.gnu.org/packages/")
      ("melpa" . "http://melpa.org/packages/")))
  '(package-selected-packages
-   '(web-beautify typescript-mode vterm jq-format go-mode lsp-ui lsp-python-ms yasnippet dash lsp-pyright lsp-mode spell-fu cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags evil evil-visual-mark-mode ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout))
+   '(zop-to-char web-beautify typescript-mode vterm jq-format go-mode lsp-ui lsp-python-ms yasnippet dash lsp-pyright lsp-mode spell-fu cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags evil evil-visual-mark-mode ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout))
  '(projectile-project-root-functions '(projectile-root-local projectile-root-bottom-up))
  '(recentf-menu-filter 'recentf-sort-ascending)
  '(recentf-mode t nil (recentf))
@@ -516,6 +516,12 @@ Uses `current-date-time-format' for the formatting the date/time."
   )
 (global-set-key "\C-\M-m" 'magit)
 
+;; Zop-to-char
+(use-package zop-to-char
+  :ensure t)
+(global-set-key (kbd "M-z") 'zop-up-to-char)
+
+
 
 (defun transform-region-by-line (beginning end f)
   "Transform a region by running function 'f' on each line.
@@ -536,7 +542,6 @@ Uses `current-date-time-format' for the formatting the date/time."
          ;; Join lines
          (xformed_block (string-join xformed_lines "\n"))
          )
-
 
       ;; Delete the old region
       (delete-region beginning end)
