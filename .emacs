@@ -308,7 +308,7 @@
    '(("elpa" . "http://elpa.gnu.org/packages/")
      ("melpa" . "http://melpa.org/packages/")))
  '(package-selected-packages
-   '(ob-ipython dts-mode zop-to-char web-beautify typescript-mode vterm jq-format go-mode lsp-ui lsp-python-ms yasnippet dash lsp-pyright lsp-mode spell-fu cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags evil evil-visual-mark-mode ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout))
+   '(treemacs-persp treemacs-magit treemacs-icons-dired treemacs-projectile treemacs ob-ipython dts-mode zop-to-char web-beautify typescript-mode vterm jq-format go-mode lsp-ui lsp-python-ms yasnippet dash lsp-pyright lsp-mode spell-fu cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout))
  '(projectile-project-root-functions '(projectile-root-local projectile-root-bottom-up))
  '(recentf-menu-filter 'recentf-sort-ascending)
  '(recentf-mode t nil (recentf))
@@ -488,10 +488,6 @@ Uses `current-date-time-format' for the formatting the date/time."
         ("C-x t M-t" . treemacs-find-tag))
   )
 
-(use-package treemacs-evil
-  :after (treemacs evil)
-  :ensure t)
-
 (use-package treemacs-projectile
   :after (treemacs projectile)
   :ensure t)
@@ -625,34 +621,6 @@ Uses `current-date-time-format' for the formatting the date/time."
 
 (use-package ac-cider
   :after cider
-  )
-
-;; Evil mode
-(defun evil ()  
-  (interactive)
-  (evil-mode 1)
-  )
-
-;; Holy mode
-(defun holy ()  
-  (interactive)
-  (evil-mode 0)
-  )
-
-(use-package evil
-  :defer t
-  :ensure t
-  )
-
-(use-package evil-states
-  :after evil
-  :config
-  (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-  (define-key evil-normal-state-map (kbd "C-s") 'save-buffer)
-  (define-key evil-normal-state-map (kbd "C-S-S") 'isearch-forward)
-  ;; C-S will save and return to normal mode
-  (define-key evil-insert-state-map (kbd "C-s") '(lambda () (interactive) (evil-force-normal-state) (save-buffer)))
-
   )
 
 ;; Use helm
