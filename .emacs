@@ -309,7 +309,7 @@
    '(("elpa" . "http://elpa.gnu.org/packages/")
      ("melpa" . "http://melpa.org/packages/")))
  '(package-selected-packages
-   '(treemacs-persp treemacs-magit treemacs-icons-dired treemacs-projectile treemacs ob-ipython dts-mode zop-to-char web-beautify typescript-mode jq-format go-mode lsp-ui lsp-python-ms yasnippet dash lsp-pyright lsp-mode spell-fu cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout))
+   '(docker docker-tramp treemacs-persp treemacs-magit treemacs-icons-dired treemacs-projectile treemacs ob-ipython dts-mode zop-to-char web-beautify typescript-mode jq-format go-mode lsp-ui lsp-python-ms yasnippet dash lsp-pyright lsp-mode spell-fu cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout))
  '(projectile-project-root-functions '(projectile-root-local projectile-root-bottom-up))
  '(recentf-menu-filter 'recentf-sort-ascending)
  '(recentf-mode t nil (recentf))
