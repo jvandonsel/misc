@@ -99,7 +99,8 @@
 ; Force horizontal splitting                                                                                                                 
 (setq split-width-threshold nil)
 
-(global-set-key [f3] 'buffer-menu)
+(global-set-key [f3] 'bs-show)
+;;(global-set-key [f3] 'buffer-menu)
 (global-set-key [f4] 'find-file)
 
 ;; revert buffer
