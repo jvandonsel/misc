@@ -464,6 +464,7 @@ Uses `current-date-time-format' for the formatting the date/time."
           treemacs-user-mode-line-format         nil
           treemacs-user-header-line-format       nil
           treemacs-width                         35
+          treemacs-width-is-initially-locked     nil
           treemacs-workspace-switch-cleanup      nil)
 
     ;; The default width and height of the icons is 22 pixels. If you are
