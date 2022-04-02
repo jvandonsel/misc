@@ -663,13 +663,13 @@ Uses `current-date-time-format' for the formatting the date/time."
 )
 
 ;; Octave
-(defun octave-send-stuff (start end)
-  "Send either a line or a region to the octave interpreter"
-  (interactive "r")
-  (if (and transient-mark-mode mark-active)
-      (octave-send-region start end)
-    (octave-send-line)))
-(define-key octave-mode-map (kbd "C-x C-e") 'octave-send-stuff)
+;;(defun octave-send-stuff (start end)
+ ;; "Send either a line or a region to the octave interpreter"
+ ;; (interactive "r")
+ ;; (if (and transient-mark-mode mark-active)
+ ;;     (octave-send-region start end)
+ ;;   (octave-send-line)))
+;;(define-key octave-mode-map (kbd "C-x C-e") 'octave-send-stuff)
 
 
 
