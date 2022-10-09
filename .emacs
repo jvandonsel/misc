@@ -60,7 +60,7 @@
 
 ;; Enable native tab bar
 ;; (tab-bar-mode t)
-(global-tab-line-mode)
+;;(global-tab-line-mode)
 
 ;; Yank will overwrite current selection
 (delete-selection-mode 1)
@@ -189,6 +189,7 @@
   :ensure t
   :config
   (projectile-global-mode 1)
+  (setq projectile-indexing-method 'alien)
   (setq projectile-completion-system 'helm)
   (helm-projectile-on)
   (define-key projectile-mode-map (kbd "C-c p") 'helm-projectile)
@@ -287,7 +288,7 @@
  '(case-fold-search t)
  '(column-number-mode t)
  '(current-language-environment "UTF-8")
- '(custom-enabled-themes '(whiteboard))
+ '(custom-enabled-themes (quote (whiteboard)))
  '(default-input-method "rfc1345")
  '(flycheck-flake8-maximum-line-length 180)
  '(focus-follows-mouse t)
@@ -295,36 +296,41 @@
  '(global-font-lock-mode t nil (font-lock))
  '(horizontal-scroll-bar-mode t)
  '(indent-tabs-mode nil)
- '(ispell-highlight-face 'flyspell-incorrect)
+ '(ispell-highlight-face (quote flyspell-incorrect))
  '(ispell-local-dictionary "american")
  '(ispell-personal-dictionary "~/.aspell.en.pws")
  '(ispell-program-name "/usr/bin/aspell")
  '(large-file-warning-threshold 1000000000)
+ '(lsp-file-watch-ignored-directories
+   (quote
+    ("[/\\\\]\\.git\\'" "[/\\\\]\\.hg\\'" "[/\\\\]\\.bzr\\'" "[/\\\\]_darcs\\'" "[/\\\\]\\.svn\\'" "[/\\\\]_FOSSIL_\\'" "[/\\\\]\\.idea\\'" "[/\\\\]\\.ensime_cache\\'" "[/\\\\]\\.eunit\\'" "[/\\\\]node_modules" "[/\\\\]\\.fslckout\\'" "[/\\\\]\\.tox\\'" "[/\\\\]dist\\'" "[/\\\\]dist-newstyle\\'" "[/\\\\]\\.stack-work\\'" "[/\\\\]\\.bloop\\'" "[/\\\\]\\.metals\\'" "[/\\\\]target\\'" "[/\\\\]\\.ccls-cache\\'" "[/\\\\]\\.vscode\\'" "[/\\\\]\\.deps\\'" "[/\\\\]build-aux\\'" "[/\\\\]autom4te.cache\\'" "[/\\\\]\\.reference\\'" "[/\\\\]\\.lsp\\'" "[/\\\\]\\.clj-kondo\\'" "[/\\\\]\\.cpcache\\'" "[/\\\\]bin/Debug\\'" "[/\\\\]obj\\'" "[/\\\\]build\\'")))
  '(nxml-child-indent 4)
  '(org-indent-indentation-per-level 2)
  '(org-list-indent-offset 8)
  '(org-log-done nil)
  '(org-startup-indented t)
  '(package-archives
-   '(("elpa" . "http://elpa.gnu.org/packages/")
-     ("melpa" . "http://melpa.org/packages/")))
+   (quote
+    (("elpa" . "http://elpa.gnu.org/packages/")
+     ("melpa" . "http://melpa.org/packages/"))))
  '(package-selected-packages
-   '(docker docker-tramp treemacs-persp treemacs-magit treemacs-icons-dired treemacs-projectile treemacs ob-ipython dts-mode zop-to-char web-beautify typescript-mode jq-format go-mode lsp-ui lsp-python-ms yasnippet dash lsp-pyright lsp-mode spell-fu cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout))
- '(projectile-project-root-functions '(projectile-root-local projectile-root-bottom-up))
- '(recentf-menu-filter 'recentf-sort-ascending)
+   (quote
+    (eglot docker docker-tramp treemacs-persp treemacs-magit treemacs-icons-dired treemacs-projectile treemacs ob-ipython dts-mode zop-to-char web-beautify typescript-mode jq-format go-mode lsp-ui lsp-python-ms yasnippet dash lsp-pyright lsp-mode spell-fu cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout)))
+ '(projectile-project-root-functions (quote (projectile-root-local projectile-root-bottom-up)))
+ '(recentf-menu-filter (quote recentf-sort-ascending))
  '(recentf-mode t nil (recentf))
- '(ring-bell-function 'ignore)
+ '(ring-bell-function (quote ignore))
  '(save-place-mode t nil (saveplace))
- '(scroll-bar-mode 'right)
+ '(scroll-bar-mode (quote right))
  '(scroll-conservatively 10)
  '(scroll-down-aggressively nil)
  '(scroll-step 1)
  '(scroll-up-aggressively nil)
  '(show-paren-mode t nil (paren))
  '(speedbar-show-unknown-files t)
- '(speedbar-tag-hierarchy-method '(speedbar-simple-group-tag-hierarchy))
+ '(speedbar-tag-hierarchy-method (quote (speedbar-simple-group-tag-hierarchy)))
  '(tool-bar-mode nil nil (tool-bar))
- '(uniquify-buffer-name-style 'forward nil (uniquify)))
+ '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
 (setq truncate-partial-width-windows 1)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -639,6 +645,15 @@ Uses `current-date-time-format' for the formatting the date/time."
 ;;(use-package lsp-python-ms)
 ;;(use-package lsp-ui
 ;;  :commands lsp-ui-mode)
+(add-hook 'c-mode-hook 'lsp)
+(add-hook 'c++-mode-hook 'lsp)
+
+
+;; Force no indentation after namespace
+(defun my-c-setup ()
+   (c-set-offset 'innamespace [0]))
+(add-hook 'c++-mode-hook 'my-c-setup)
+
 
 ;; Mac command key
 (setq mac-command-modifier 'meta)
@@ -647,6 +662,8 @@ Uses `current-date-time-format' for the formatting the date/time."
   :defer t
   )
 (use-package yasnippet
+  :defer t)
+(use-package eglot
   :defer t)
 
 ;; GO
