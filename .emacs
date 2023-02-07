@@ -21,6 +21,9 @@
 ;; Get rid of c-z minimizing the window 
 (global-set-key "\C-z" nil)
 
+;; Open dirs in same window with a mouse click
+(define-key dired-mode-map [mouse-2] 'dired-mouse-find-file)
+
 ;; Fill paragraph width
 (setq-default fill-column 100)
 
@@ -315,7 +318,7 @@
      ("melpa" . "http://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (eglot docker docker-tramp treemacs-persp treemacs-magit treemacs-icons-dired treemacs-projectile treemacs ob-ipython dts-mode zop-to-char web-beautify typescript-mode jq-format go-mode lsp-ui lsp-python-ms yasnippet dash lsp-pyright lsp-mode spell-fu cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout)))
+    (org-present multi-term eglot docker docker-tramp treemacs-persp treemacs-magit treemacs-icons-dired treemacs-projectile treemacs ob-ipython dts-mode zop-to-char web-beautify typescript-mode jq-format go-mode lsp-ui lsp-python-ms yasnippet dash lsp-pyright lsp-mode spell-fu cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout)))
  '(projectile-project-root-functions (quote (projectile-root-local projectile-root-bottom-up)))
  '(recentf-menu-filter (quote recentf-sort-ascending))
  '(recentf-mode t nil (recentf))
@@ -340,6 +343,7 @@
  '(default ((t (:inherit nil :extend nil :stipple nil :background "whitesmoke" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "1ASC" :family "Liberation Mono"))))
  '(font-lock-comment-face ((((class color) (background light)) (:foreground "Dark Green"))))
  '(font-lock-string-face ((((class color) (background light)) (:foreground "Red"))))
+ '(highlight-indentation-face ((t (:inherit nil :background "white"))))
  '(mode-line ((t (:background "MediumPurple1" :foreground "White" :box (:line-width -1 :style released-button))))))
 
 
@@ -632,7 +636,7 @@ Uses `current-date-time-format' for the formatting the date/time."
   )
 
 ;; Use helm
-(helm-mode)
+;; (helm-mode)
 
 ;; Starting frame size
 (when window-system (set-frame-size (selected-frame) 150 50))
