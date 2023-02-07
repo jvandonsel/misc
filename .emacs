@@ -22,7 +22,8 @@
 (global-set-key "\C-z" nil)
 
 ;; Open dirs in same window with a mouse click
-(define-key dired-mode-map [mouse-2] 'dired-mouse-find-file)
+(eval-after-load "dired" '(progn
+			    (define-key dired-mode-map [mouse-2] 'dired-mouse-find-file)))
 
 ;; Fill paragraph width
 (setq-default fill-column 100)
