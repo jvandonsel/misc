@@ -40,6 +40,10 @@
 (setenv "PATH" (concat (getenv "PATH") ":/Users/jdonsel/bin"))
 (setq exec-path (append exec-path '("/Users/jdonsel/bin")))
 
+;; I like this word movement behavior better than the default
+(global-set-key "\M-f" 'right-word) 
+(global-set-key "\M-b" 'left-word)
+
 ;(use-package misc)
 (use-package markdown-mode
   :ensure t
@@ -84,6 +88,17 @@
 (global-hl-line-mode t)
 (set-face-background 'hl-line "#E4E4E4")
 
+;; Yellow highlight of region
+(defun highlight-yellow (start end)
+   (interactive "r")
+   (facemenu-set-face-from-menu
+    (facemenu-add-new-color "yellow" 'facemenu-background-menu)
+    start end)
+   )
+
+(global-set-key (kbd "C-M-y") 'highlight-yellow)
+
+      
 (set-background-color "#E8E8E8")
 
 (setq grep-command "grep -r -nH ")
@@ -124,9 +139,6 @@
 (global-set-key "\C-xm" 'my-bookmark-set)
 (global-set-key "\C-xj" 'my-bookmark-jump)
 
-;; Prompts for a background color for selection
-;; FIXME: doesn't work any more
-(global-set-key "\C-\M-y" 'facemenu-set-background)
 
 
 ;; org mode
@@ -179,6 +191,7 @@
 
 ;; Helm
 (use-package helm
+  (global-set-key "\C-h\C-b" 'helm-buffers-list)
   :ensure t)
 
 (use-package helm-ag
@@ -319,7 +332,7 @@
      ("melpa" . "http://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (org-present multi-term eglot docker docker-tramp treemacs-persp treemacs-magit treemacs-icons-dired treemacs-projectile treemacs ob-ipython dts-mode zop-to-char web-beautify typescript-mode jq-format go-mode lsp-ui lsp-python-ms yasnippet dash lsp-pyright lsp-mode spell-fu cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout)))
+    (treemacs-projectile org-present multi-term docker docker-tramp treemacs-persp treemacs-magit treemacs-icons-dired treemacs ob-ipython dts-mode zop-to-char web-beautify typescript-mode jq-format go-mode lsp-ui lsp-python-ms yasnippet dash lsp-pyright lsp-mode spell-fu cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode rainbow-delimiters paredit magit json-mode js2-mode company ac-cider 0blayout)))
  '(projectile-project-root-functions (quote (projectile-root-local projectile-root-bottom-up)))
  '(recentf-menu-filter (quote recentf-sort-ascending))
  '(recentf-mode t nil (recentf))
@@ -378,17 +391,6 @@
 (put 'downcase-region 'disabled nil)
 (put 'scroll-left 'disabled nil)
  
-;; Flymake - lint for python
-;; (when (load "flymake" t)
-;;       (defun flymake-pylint-init ()
-;;         (let* ((temp-file (flymake-init-create-temp-buffer-copy
-;;                            'flymake-create-temp-inplace))
-;;            (local-file (file-relative-name
-;;                         temp-file
-;;                         (file-name-directory buffer-file-name))))
-;;           (list "/usr/local/bin/epylint" (list local-file))))
-;;  (add-to-list 'flymake-allowed-file-name-masks
-;;                '("\\.py\\'" flymake-pylint-init)))
 
 ;; ====================
 ;; insert date and time
@@ -693,6 +695,8 @@ Uses `current-date-time-format' for the formatting the date/time."
  ;;   (octave-send-line)))
 ;;(define-key octave-mode-map (kbd "C-x C-e") 'octave-send-stuff)
 
+;; Start in tabbar mode
+(tabbar-mode)
 
 
 
