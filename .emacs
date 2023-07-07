@@ -189,10 +189,16 @@
   )
 
 
+;; swap buffers in windows
+(global-set-key "\C-x\C-p" 'window-swap-states)
+
+
 ;; Helm
 (use-package helm
+  :ensure t
+  :config
   (global-set-key "\C-h\C-b" 'helm-buffers-list)
-  :ensure t)
+)
 
 (use-package helm-ag
   :ensure t
@@ -201,7 +207,10 @@
   (global-set-key "\M-i" 'helm-projectile-ag)
   )
 (use-package projectile
-  :ensure t)
+  :ensure t
+  :config
+  (define-key projectile-mode-map (kbd "C-x p p") 'projectile-switch-project)
+  )
 (use-package helm-projectile
   :ensure t
   :config
@@ -219,6 +228,7 @@
 ; this gets invoked by 'run-lisp'
 (setq inferior-lisp-program "~/bin/clojure")
 (add-hook 'clojure-mode-hook 'prettify-symbols-mode)
+(setq tab-always-indent 'complete)
 
 (use-package company
   :ensure t
@@ -228,6 +238,9 @@
 
 ;; Kill whitespace
 (global-set-key "\C-\M-w" 'fixup-whitespace)
+
+;; Max size of kill ring
+(setq kill-ring-max 500)
 
 
 ;; Paredit
@@ -281,10 +294,11 @@
 (add-to-list 'auto-mode-alist '("\\.jsp" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tag" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.js" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.ts" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.ts" . typescript-mode))
 (add-to-list 'auto-mode-alist '("\\.cpp" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.h" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.html" . web-mode))
+
 
 (define-key minibuffer-local-map [f3]
   (lambda() (interactive) (insert (buffer-file-name (nth 1 (buffer-list))))))
@@ -305,56 +319,77 @@
  '(case-fold-search t)
  '(column-number-mode t)
  '(current-language-environment "UTF-8")
- '(custom-enabled-themes (quote (whiteboard)))
+ '(custom-enabled-themes '(whiteboard))
  '(default-input-method "rfc1345")
  '(flycheck-flake8-maximum-line-length 180)
  '(focus-follows-mouse t)
  '(font-use-system-font nil)
  '(global-font-lock-mode t nil (font-lock))
+ '(global-tab-line-mode t)
  '(horizontal-scroll-bar-mode t)
  '(indent-tabs-mode nil)
- '(ispell-highlight-face (quote flyspell-incorrect))
+ '(ispell-highlight-face 'flyspell-incorrect)
  '(ispell-local-dictionary "american")
  '(ispell-personal-dictionary "~/.aspell.en.pws")
- '(ispell-program-name "/usr/bin/aspell")
  '(large-file-warning-threshold 1000000000)
  '(lsp-file-watch-ignored-directories
-   (quote
-    ("[/\\\\]\\.git\\'" "[/\\\\]\\.hg\\'" "[/\\\\]\\.bzr\\'" "[/\\\\]_darcs\\'" "[/\\\\]\\.svn\\'" "[/\\\\]_FOSSIL_\\'" "[/\\\\]\\.idea\\'" "[/\\\\]\\.ensime_cache\\'" "[/\\\\]\\.eunit\\'" "[/\\\\]node_modules" "[/\\\\]\\.fslckout\\'" "[/\\\\]\\.tox\\'" "[/\\\\]dist\\'" "[/\\\\]dist-newstyle\\'" "[/\\\\]\\.stack-work\\'" "[/\\\\]\\.bloop\\'" "[/\\\\]\\.metals\\'" "[/\\\\]target\\'" "[/\\\\]\\.ccls-cache\\'" "[/\\\\]\\.vscode\\'" "[/\\\\]\\.deps\\'" "[/\\\\]build-aux\\'" "[/\\\\]autom4te.cache\\'" "[/\\\\]\\.reference\\'" "[/\\\\]\\.lsp\\'" "[/\\\\]\\.clj-kondo\\'" "[/\\\\]\\.cpcache\\'" "[/\\\\]bin/Debug\\'" "[/\\\\]obj\\'" "[/\\\\]build\\'")))
+   '("[/\\\\]\\.git\\'" "[/\\\\]\\.hg\\'" "[/\\\\]\\.bzr\\'" "[/\\\\]_darcs\\'" "[/\\\\]\\.svn\\'" "[/\\\\]_FOSSIL_\\'" "[/\\\\]\\.idea\\'" "[/\\\\]\\.ensime_cache\\'" "[/\\\\]\\.eunit\\'" "[/\\\\]node_modules" "[/\\\\]\\.fslckout\\'" "[/\\\\]\\.tox\\'" "[/\\\\]dist\\'" "[/\\\\]dist-newstyle\\'" "[/\\\\]\\.stack-work\\'" "[/\\\\]\\.bloop\\'" "[/\\\\]\\.metals\\'" "[/\\\\]target\\'" "[/\\\\]\\.ccls-cache\\'" "[/\\\\]\\.vscode\\'" "[/\\\\]\\.deps\\'" "[/\\\\]build-aux\\'" "[/\\\\]autom4te.cache\\'" "[/\\\\]\\.reference\\'" "[/\\\\]\\.lsp\\'" "[/\\\\]\\.clj-kondo\\'" "[/\\\\]\\.cpcache\\'" "[/\\\\]bin/Debug\\'" "[/\\\\]obj\\'" "[/\\\\]build\\'"))
  '(nxml-child-indent 4)
+ '(org-babel-load-languages '((python . t) (ipython . t) (C . t) (js . t)))
  '(org-indent-indentation-per-level 2)
  '(org-list-indent-offset 8)
  '(org-log-done nil)
  '(org-startup-indented t)
  '(package-archives
-   (quote
-    (("elpa" . "http://elpa.gnu.org/packages/")
-     ("melpa" . "http://melpa.org/packages/"))))
+   '(("elpa" . "http://elpa.gnu.org/packages/")
+     ("melpa" . "http://melpa.org/packages/")))
  '(package-selected-packages
-   (quote
-    (treemacs-projectile org-present multi-term docker docker-tramp treemacs-persp treemacs-magit treemacs-icons-dired treemacs ob-ipython dts-mode zop-to-char web-beautify typescript-mode jq-format go-mode lsp-ui lsp-python-ms yasnippet dash lsp-pyright lsp-mode spell-fu cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode rainbow-delimiters paredit magit json-mode js2-mode company ac-cider 0blayout)))
- '(projectile-project-root-functions (quote (projectile-root-local projectile-root-bottom-up)))
- '(recentf-menu-filter (quote recentf-sort-ascending))
+   '(rust-mode janet-mode multi-term flycheck impatient-mode tree-sitter-langs tree-sitter eglot docker docker-tramp treemacs-persp treemacs-magit treemacs-icons-dired treemacs-projectile treemacs ob-ipython dts-mode zop-to-char web-beautify typescript-mode jq-format go-mode lsp-ui lsp-python-ms yasnippet dash lsp-pyright lsp-mode spell-fu cider use-package org-bullets org-tree-slide org-translate projectile helm-projectile markdown-mode helm-ag-r helm-org helm-ag helm ag xref-js2 ggtags ctags-update auto-virtualenv virtualenv elpy web-mode ess rainbow-mode rainbow-delimiters paredit magit json-mode js2-mode flymake-jslint company ac-cider 0blayout))
+ '(projectile-project-root-functions '(projectile-root-local projectile-root-bottom-up))
+ '(recentf-menu-filter 'recentf-sort-ascending)
  '(recentf-mode t nil (recentf))
- '(ring-bell-function (quote ignore))
+ '(ring-bell-function 'ignore)
+ '(safe-local-variable-values
+   '((eval
+      (lambda nil
+        (defun cider-jack-in-wrapper-function
+            (orig-fun &rest args)
+          (if
+              (and
+               (boundp 'use-bb-dev)
+               use-bb-dev)
+              (message "Use `bb dev` to start the development server, then `cider-connect` to the port it specifies.")
+            (apply orig-fun args)))
+        (advice-add 'cider-jack-in :around #'cider-jack-in-wrapper-function)
+        (when
+            (not
+             (featurep 'clerk))
+          (let
+              ((init-file-path
+                (expand-file-name "clerk.el" default-directory)))
+            (when
+                (file-exists-p init-file-path)
+              (load init-file-path)
+              (require 'clerk))))))
+     (use-bb-dev . t)
+     (prettify-symbols-mode)))
  '(save-place-mode t nil (saveplace))
- '(scroll-bar-mode (quote right))
+ '(scroll-bar-mode 'right)
  '(scroll-conservatively 10)
  '(scroll-down-aggressively nil)
  '(scroll-step 1)
  '(scroll-up-aggressively nil)
- '(show-paren-mode t nil (paren))
  '(speedbar-show-unknown-files t)
- '(speedbar-tag-hierarchy-method (quote (speedbar-simple-group-tag-hierarchy)))
+ '(speedbar-tag-hierarchy-method '(speedbar-simple-group-tag-hierarchy))
  '(tool-bar-mode nil nil (tool-bar))
- '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
+ '(uniquify-buffer-name-style 'forward nil (uniquify)))
 (setq truncate-partial-width-windows 1)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :extend nil :stipple nil :background "whitesmoke" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "1ASC" :family "Liberation Mono"))))
+ '(default ((t (:inherit nil :stipple nil :background "whitesmoke" :foreground "black" :inverse-video nil :box nil :strike-through nil :extend nil :overline nil :underline nil :slant normal :weight normal :height 100 :width normal :foundry "nil" :family "Monaco"))))
  '(font-lock-comment-face ((((class color) (background light)) (:foreground "Dark Green"))))
  '(font-lock-string-face ((((class color) (background light)) (:foreground "Red"))))
  '(highlight-indentation-face ((t (:inherit nil :background "white"))))
@@ -405,7 +440,7 @@ Uses `current-date-time-format' for the formatting the date/time."
        (insert (format-time-string current-date-time-format (current-time)))
        )
 
-;;(global-set-key "\C-\M-d" 'insert-current-date-time)
+(global-set-key "\C-\M-d" 'insert-current-date-time)
 
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
 
@@ -584,11 +619,11 @@ Uses `current-date-time-format' for the formatting the date/time."
     ;; (setq spell-fu-word-regexp "\\b\\([[a-z]][[:alpha:]]*\\('[[:alpha:]]*\\)?\\)\\b")
     (spell-fu-mode)))
 
-(add-hook 'emacs-lisp-mode-hook
-  (lambda ()
-    (spell-fu-mode)))
+;; (add-hook 'emacs-lisp-mode-hook
+;;   (lambda ()
+;;     (spell-fu-mode)))
 
-;; Org babel
+;; ;; Org babel
 (use-package ob-ipython
   :ensure t)
 
@@ -686,14 +721,6 @@ Uses `current-date-time-format' for the formatting the date/time."
               ))
 )
 
-;; Octave
-;;(defun octave-send-stuff (start end)
- ;; "Send either a line or a region to the octave interpreter"
- ;; (interactive "r")
- ;; (if (and transient-mark-mode mark-active)
- ;;     (octave-send-region start end)
- ;;   (octave-send-line)))
-;;(define-key octave-mode-map (kbd "C-x C-e") 'octave-send-stuff)
 
 ;; Start in tabbar mode
 (tabbar-mode)
